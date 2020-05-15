@@ -12,10 +12,6 @@ public class Main {
         doc.addScript("https://www.jacobdixon.us/res/js/script.js");
         doc.setStyle("body{background-color: black;}");
 
-        HTMLTaggedElement docBody = new HTMLTaggedElement("body");
-
-
-
         System.out.println(doc);
     }
 
