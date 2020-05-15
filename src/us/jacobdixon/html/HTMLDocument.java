@@ -111,9 +111,14 @@ public class HTMLDocument {
         this.header.addChildElements(this.script);
     }
 
+    public void setIcon(String url, String type){
+        this.icon.setAttribute("href", url).setAttribute("type", type);
+        this.header.addChildElements(this.icon);
+    }
+
     public void setIcon(String url){
         this.icon.setAttribute("href", url);
-        this.header.addChildElements(this.script);
+        this.header.addChildElements(this.icon);
     }
 
     public void clearIcon(){

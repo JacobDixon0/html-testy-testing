@@ -1,4 +1,4 @@
-package us.jacobdixon.html;
+package us.jacobdixon.utils;
 
 import java.util.ArrayList;
 

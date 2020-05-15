@@ -3,7 +3,7 @@ package us.jacobdixon.html;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import static us.jacobdixon.html.HTMLToolbox.sanitizeValue;
+import static us.jacobdixon.utils.HTMLToolbox.sanitizeValue;
 import static us.jacobdixon.utils.StringToolbox.repeat;
 
 public class HTMLTaggedElement implements HTMLElement {
@@ -15,6 +15,12 @@ public class HTMLTaggedElement implements HTMLElement {
 
     public HTMLTaggedElement(String tag) {
         this.tag = tag;
+        this.isSelfClosing = checkIfSelfClosing(tag);
+    }
+
+    public HTMLTaggedElement(String tag, String id) {
+        this.tag = tag;
+        setId(id);
         this.isSelfClosing = checkIfSelfClosing(tag);
     }
 

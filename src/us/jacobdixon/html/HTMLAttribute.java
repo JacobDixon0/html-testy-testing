@@ -3,8 +3,8 @@ package us.jacobdixon.html;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import static us.jacobdixon.html.HTMLToolbox.sanitizeValue;
-import static us.jacobdixon.html.HTMLToolbox.sanitizeValues;
+import static us.jacobdixon.utils.HTMLToolbox.sanitizeValue;
+import static us.jacobdixon.utils.HTMLToolbox.sanitizeValues;
 
 public class HTMLAttribute {
 

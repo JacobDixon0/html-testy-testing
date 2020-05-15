@@ -1,7 +1,6 @@
 package us.jacobdixon.dev;
 
 import us.jacobdixon.html.HTMLDocument;
-import us.jacobdixon.html.HTMLTaggedElement;
 
 public class Main {
 
@@ -11,8 +10,8 @@ public class Main {
         doc.addStylesheet("https://www.jacobdixon.us/res/css/style.css");
         doc.addScript("https://www.jacobdixon.us/res/js/script.js");
         doc.setStyle("body{background-color: black;}");
+        doc.setIcon("https://www.jacobdixon.us/res/img/favicon.png", "image/png");
 
         System.out.println(doc);
     }
-
 }
