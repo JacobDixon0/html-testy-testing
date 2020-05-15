@@ -32,7 +32,7 @@ public class HTMLAttribute {
         }
     }
 
-    public String getValuesString() {
+    public String getValue() {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < values.size(); i++) {
             if (i != 0) sb.append(" ");
@@ -41,7 +41,7 @@ public class HTMLAttribute {
         return sb.toString();
     }
 
-    public void setValuesString(String values) {
+    public void setValue(String values) {
         this.values.clear();
         for (String value : values.split(" ")) {
             this.values.add(sanitizeValue(value));
@@ -67,7 +67,7 @@ public class HTMLAttribute {
     @Override
     public String toString() {
         String s = key;
-        if (!values.isEmpty()) s += "=\"" + getValuesString() + "\"";
+        if (!values.isEmpty()) s += "=\"" + getValue() + "\"";
         return s;
     }
 }
