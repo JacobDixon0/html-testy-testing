@@ -1,18 +1,24 @@
 package us.jacobdixon.html;
 
+import us.jacobdixon.html.elements.Body;
+import us.jacobdixon.html.elements.Head;
+
+import java.util.ArrayList;
+
 public class HTMLDocument {
 
-    private HTMLTaggedElement doctypeIdentifier = new HTMLTaggedElement("!DOCTYPE");
+    private HTMLElement doctypeIdentifier = new HTMLElement("!DOCTYPE");
 
-    private HTMLTaggedElement html = new HTMLTaggedElement("html");
-    private HTMLTaggedElement header = new HTMLTaggedElement("head");
-    private HTMLTaggedElement title = new HTMLTaggedElement("title");
-    private HTMLTaggedElement body = new HTMLTaggedElement("body");
+    private HTMLElement html = new HTMLElement("html");
+    private HTMLElement header = new HTMLElement("head");
+    private HTMLElement body = new HTMLElement("body");
 
-    private HTMLTaggedElement style = new HTMLTaggedElement("style");
-    private HTMLTaggedElement script = new HTMLTaggedElement("script");
+    private HTMLElement title = new HTMLElement("title");
 
-    private HTMLTaggedElement icon = new HTMLTaggedElement("link").setAttribute("rel", "shortcut", "icon");
+    private HTMLElement style = new HTMLElement("style");
+    private HTMLElement script = new HTMLElement("script");
+
+    private HTMLElement icon = new HTMLElement("link").setAttribute("rel", "shortcut", "icon");
 
     private HTMLDocument() {
     }
@@ -31,14 +37,14 @@ public class HTMLDocument {
 
     public void addStylesheet(String url) {
         boolean prexisting = false;
-        for (HTMLTaggedElement element : header.getChildElementsOfType("link", "rel", "stylesheet")) {
+        for (HTMLElement element : header.getChildElementsOfType("link", "rel", "stylesheet")) {
             if (element.getAttribute("href").getValue().equals(url)) {
                 prexisting = true;
                 break;
             }
         }
         if (!prexisting) {
-            HTMLTaggedElement linkElement = new HTMLTaggedElement("link").
+            HTMLElement linkElement = new HTMLElement("link").
                     setAttribute("rel", "stylesheet")
                     .setAttribute("href", url)
                     .setAttribute("type", "text/css");
@@ -47,8 +53,8 @@ public class HTMLDocument {
     }
 
     public void removeStylesheet(String url) {
-        HTMLTaggedElement linkElement = null;
-        for (HTMLTaggedElement element : header.getChildElementsOfType("link", "rel", "stylesheet")) {
+        HTMLElement linkElement = null;
+        for (HTMLElement element : header.getChildElementsOfType("link", "rel", "stylesheet")) {
             if (element.getAttribute("href").getValue().equals(url)) {
                 linkElement = element;
                 break;
@@ -60,21 +66,21 @@ public class HTMLDocument {
     }
 
     public void clearStylesheets() {
-        for (HTMLTaggedElement element : header.getChildElementsOfType("link", "rel", "stylesheet")) {
+        for (HTMLElement element : header.getChildElementsOfType("link", "rel", "stylesheet")) {
             header.removeChildElement(element);
         }
     }
 
     public void addScript(String url) {
         boolean prexisting = false;
-        for (HTMLTaggedElement element : header.getChildElementsOfType("script")) {
+        for (HTMLElement element : header.getChildElementsOfType("script")) {
             if (element.getAttribute("src") != null && element.getAttribute("src").getValue().equals(url)) {
                 prexisting = true;
                 break;
             }
         }
         if (!prexisting) {
-            HTMLTaggedElement scriptElement = new HTMLTaggedElement("script")
+            HTMLElement scriptElement = new HTMLElement("script")
                     .setAttribute("src", url)
                     .setAttribute("type", "text/javascript");
             header.addChildElements(scriptElement);
@@ -82,8 +88,8 @@ public class HTMLDocument {
     }
 
     public void removeScript(String url) {
-        HTMLTaggedElement scriptElement = null;
-        for (HTMLTaggedElement element : header.getChildElementsOfType("script")) {
+        HTMLElement scriptElement = null;
+        for (HTMLElement element : header.getChildElementsOfType("script")) {
             if (element.getAttribute("src") != null && element.getAttribute("src").getValue().equals(url)) {
                 scriptElement = element;
                 break;
@@ -134,69 +140,72 @@ public class HTMLDocument {
     }
 
     public void clearScripts() {
-        for (HTMLTaggedElement element : header.getChildElementsOfType("script")) {
+        for (HTMLElement element : header.getChildElementsOfType("script")) {
             header.removeChildElement(element);
         }
     }
 
-    public HTMLTaggedElement getDoctypeIdentifier() {
+    public HTMLElement getDoctypeIdentifier() {
         return doctypeIdentifier;
     }
 
-    public void setDoctypeIdentifier(HTMLTaggedElement doctypeIdentifier) {
+    public void setDoctypeIdentifier(HTMLElement doctypeIdentifier) {
         this.doctypeIdentifier = doctypeIdentifier;
     }
 
-    public HTMLTaggedElement getHtml() {
+    public HTMLElement getHtml() {
         return html;
     }
 
-    public void setHtml(HTMLTaggedElement html) {
+    public void setHtml(HTMLElement html) {
         this.html = html;
     }
 
-    public HTMLTaggedElement getHeader() {
+    public HTMLElement getHeader() {
         return header;
     }
 
-    public void setHeader(HTMLTaggedElement header) {
+    public void setHeader(Head header) {
         this.header = header;
     }
 
-    public HTMLTaggedElement getTitle() {
+    public HTMLElement getTitle() {
         return title;
     }
 
-    public void setTitle(HTMLTaggedElement title) {
+    public void setTitle(HTMLElement title) {
         this.title = title;
     }
 
-    public HTMLTaggedElement getBody() {
+    public HTMLElement getBody() {
         return body;
     }
 
-    public void setBody(HTMLTaggedElement body) {
+    public void setBody(Body body) {
         this.body = body;
     }
 
-    public HTMLTaggedElement getStyle() {
+    public HTMLElement getStyle() {
         return style;
     }
 
-    public void setStyle(HTMLTaggedElement style) {
+    public void setStyle(HTMLElement style) {
         this.style = style;
     }
 
-    public HTMLTaggedElement getScript() {
+    public HTMLElement getScript() {
         return script;
     }
 
-    public void setScript(HTMLTaggedElement script) {
+    public void setScript(HTMLElement script) {
         this.script = script;
     }
 
-    @Override
-    public String toString() {
-        return doctypeIdentifier.toString() + html.toString();
+    public String html() {
+        return doctypeIdentifier.html(true) + html.html(true);
+    }
+
+    public String html(boolean useIndentation) {
+        return doctypeIdentifier.html(useIndentation) + html.html(useIndentation);
     }
 }

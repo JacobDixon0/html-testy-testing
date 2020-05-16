@@ -1,6 +1,7 @@
-package us.jacobdixon.utils;
+package us.jacobdixon.html;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 public class HTMLToolbox {
 
@@ -9,10 +10,10 @@ public class HTMLToolbox {
     }
 
     public static String sanitizeValue(String value) {
-        return value.split(" ")[0].replace(" ", "");
+        return value.split(" ")[0];
     }
 
-    public static ArrayList<String> sanitizeValues(ArrayList<String> values) {
+    public static ArrayList<String> sanitizeValues(Collection<String> values) {
         ArrayList<String> sanitizedValues = new ArrayList<>();
         for (String value : values) {
             sanitizedValues.add(sanitizeValue(value));
