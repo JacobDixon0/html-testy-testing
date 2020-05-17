@@ -2,14 +2,16 @@ package us.jacobdixon.html;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 
-import static us.jacobdixon.html.HTMLToolbox.sanitizeValue;
-import static us.jacobdixon.html.HTMLToolbox.sanitizeValues;
+import static us.jacobdixon.html.HTML.sanitizeValue;
+import static us.jacobdixon.html.HTML.sanitizeValues;
 
 public class HTMLAttribute {
 
     private String key;
     private ArrayList<String> values = new ArrayList<>();
+    private boolean isBoolean = false;
 
     public HTMLAttribute(String key) {
         this.key = key;
@@ -27,9 +29,7 @@ public class HTMLAttribute {
 
     public void removeValue(String value) {
         value = sanitizeValue(value);
-        if (values.contains(value)) {
-            this.values.remove(value);
-        }
+        if (values.contains(value)) this.values.remove(value);
     }
 
     public String getValue() {
@@ -62,6 +62,23 @@ public class HTMLAttribute {
 
     public void setValues(String... values) {
         this.values = sanitizeValues(new ArrayList<>(Arrays.asList(values)));
+    }
+
+    public void setValues(Collection<String> values) {
+        this.values.clear();
+        this.values.addAll(values);
+    }
+
+    public void setValues(ArrayList<String> values) {
+        this.values = values;
+    }
+
+    public boolean isBoolean() {
+        return isBoolean;
+    }
+
+    public void setBoolean(boolean aBoolean) {
+        isBoolean = aBoolean;
     }
 
     @Override

@@ -3,10 +3,8 @@ package us.jacobdixon.html;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Comparator;
 
-import static us.jacobdixon.html.HTMLToolbox.sanitizeValue;
-import static us.jacobdixon.utils.StringToolbox.repeat;
+import static us.jacobdixon.html.HTML.sanitizeValue;
 
 public class HTMLElement implements HTMLAbstractElement {
 
@@ -106,13 +104,25 @@ public class HTMLElement implements HTMLAbstractElement {
         return this;
     }
 
+    public HTMLElement setChildElement(String textContent) {
+        childElements.clear();
+        childElements.add(new HTMLRawElement(textContent));
+        return this;
+    }
+
+    public HTMLElement setChildElement(HTMLAbstractElement element) {
+        childElements.clear();
+        childElements.add(element);
+        return this;
+    }
+
     public HTMLElement addChildElements(Collection<HTMLAbstractElement> elements) {
         this.childElements.addAll(elements);
         return this;
     }
 
-    public HTMLElement addChildElements(String... elements) {
-        for (String s : elements) {
+    public HTMLElement addChildElements(String... textContents) {
+        for (String s : textContents) {
             this.childElements.add(new HTMLRawElement(s));
         }
         return this;
@@ -123,8 +133,8 @@ public class HTMLElement implements HTMLAbstractElement {
         return this;
     }
 
-    public HTMLElement addChildElement(String element) {
-        this.childElements.add(new HTMLRawElement(element));
+    public HTMLElement addChildElement(String textContent) {
+        this.childElements.add(new HTMLRawElement(textContent));
         return this;
     }
 
@@ -138,13 +148,25 @@ public class HTMLElement implements HTMLAbstractElement {
         return this;
     }
 
+    public HTMLElement removeChildElements(Collection<HTMLAbstractElement> elements) {
+        this.childElements.removeAll(elements);
+        return this;
+    }
+
     public HTMLElement removeChildElements(HTMLAbstractElement... elements) {
         this.childElements.removeAll(Arrays.asList(elements));
         return this;
     }
 
-    public HTMLElement removeChildElements(Collection<HTMLAbstractElement> elements) {
-        this.childElements.removeAll(elements);
+    public HTMLElement setChildElements(HTMLAbstractElement... elements) {
+        this.childElements.clear();
+        this.childElements.addAll(Arrays.asList(elements));
+        return this;
+    }
+
+    public HTMLElement setChildElements(Collection<HTMLAbstractElement> elements) {
+        this.childElements.clear();
+        this.childElements.addAll(elements);
         return this;
     }
 
@@ -155,6 +177,16 @@ public class HTMLElement implements HTMLAbstractElement {
 
     public HTMLElement addComment(String comment) {
         childElements.add(new HTMLComment(comment));
+        return this;
+    }
+
+    public HTMLElement addComment(HTMLComment comment) {
+        childElements.add(comment);
+        return this;
+    }
+
+    public HTMLElement removeComment(HTMLComment comment) {
+        childElements.remove(comment);
         return this;
     }
 
@@ -204,6 +236,72 @@ public class HTMLElement implements HTMLAbstractElement {
         return this;
     }
 
+    public HTMLElement setHidden(boolean hidden) {
+        if (hidden) {
+            setAttribute("hidden");
+        } else {
+            clearAttribute("hidden");
+        }
+        return this;
+    }
+
+    public HTMLElement setStyle(String style) {
+        setAttribute("style", style);
+        return this;
+    }
+
+    public HTMLElement clearStyle() {
+        clearAttribute("style");
+        return this;
+    }
+
+    public HTMLElement setTitle(String title) {
+        setAttribute("title", title);
+        return this;
+    }
+
+    public HTMLElement clearTitle() {
+        clearAttribute("title");
+        return this;
+    }
+
+    public HTMLElement setLang(String lang) {
+        setAttribute("lang", lang);
+        return this;
+    }
+
+    public HTMLElement clearLang() {
+        clearAttribute("lang");
+        return this;
+    }
+
+    public HTMLElement setData(String key, String value) {
+        setAttribute("data-" + key, value);
+        return this;
+    }
+
+    public String getData(String key) {
+        return getAttribute("data-" + key).getValue();
+    }
+
+    public ArrayList<HTMLAttribute> getData() {
+        ArrayList<HTMLAttribute> dataAttributes = new ArrayList<>();
+        for (HTMLAttribute attrib : attributes) {
+            if (attrib.getKey().startsWith("data-")) dataAttributes.add(attrib);
+        }
+        return dataAttributes;
+    }
+
+    public HTMLElement clearData(String key) {
+        clearAttribute("data-" + key);
+        return this;
+    }
+
+    public HTMLElement clearData() {
+        attributes.removeIf(attrib -> attrib.getKey().startsWith("data-"));
+        return this;
+    }
+
     public String getId() {
         return getAttribute("id").getValue();
     }
@@ -230,10 +328,6 @@ public class HTMLElement implements HTMLAbstractElement {
         return this;
     }
 
-    public ArrayList<HTMLAbstractElement> getChildElements() {
-        return childElements;
-    }
-
     public HTMLElement setChildElements(ArrayList<HTMLAbstractElement> childElements) {
         this.childElements = childElements;
         return this;
@@ -246,6 +340,23 @@ public class HTMLElement implements HTMLAbstractElement {
     public HTMLElement setSelfClosing(boolean selfClosing) {
         isSelfClosing = selfClosing;
         return this;
+    }
+
+    public ArrayList<HTMLAbstractElement> getChildElements() {
+        return childElements;
+    }
+
+    public ArrayList<HTMLAbstractElement> getChildElements(boolean cascading) {
+        ArrayList<HTMLAbstractElement> elements = getChildElements();
+
+        if (cascading) {
+            for (HTMLAbstractElement element : elements) {
+                if (element instanceof HTMLElement) {
+                    elements.addAll(((HTMLElement) element).getChildElements(true));
+                }
+            }
+        }
+        return elements;
     }
 
     public ArrayList<HTMLComment> getComments() {
@@ -263,6 +374,16 @@ public class HTMLElement implements HTMLAbstractElement {
         for (HTMLAbstractElement element : childElements) {
             if (element instanceof HTMLRawElement) {
                 elements.add((HTMLRawElement) element);
+            }
+        }
+        return elements;
+    }
+
+    public ArrayList<HTMLElement> getChildHTMLElements() {
+        ArrayList<HTMLElement> elements = new ArrayList<>();
+        for (HTMLAbstractElement element : childElements) {
+            if (element instanceof HTMLElement) {
+                elements.add((HTMLElement) element);
             }
         }
         return elements;
@@ -292,13 +413,17 @@ public class HTMLElement implements HTMLAbstractElement {
         return elements;
     }
 
+    public String html() {
+        return html(false);
+    }
+
     public String html(boolean useIndentation) {
         return html(useIndentation, 0);
     }
 
     public String html(boolean useIndentation, int indentation) {
         StringBuilder sb = new StringBuilder();
-        if (useIndentation) sb.append(repeat("    ", indentation));
+        if (useIndentation) sb.append("    ".repeat(indentation));
 
         sb.append("<").append(tag);
         for (HTMLAttribute attrib : attributes) sb.append(" ").append(attrib.toString());
@@ -310,7 +435,7 @@ public class HTMLElement implements HTMLAbstractElement {
         }
 
         if (!isSelfClosing) {
-            if (useIndentation) sb.append(repeat("    ", indentation));
+            if (useIndentation) sb.append("    ".repeat(indentation));
             sb.append("</").append(tag).append(">");
             if (useIndentation) sb.append("\n");
         }

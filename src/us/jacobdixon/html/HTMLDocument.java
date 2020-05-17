@@ -100,20 +100,23 @@ public class HTMLDocument {
         }
     }
 
+    public void clearScripts() {
+        for (HTMLElement element : header.getChildElementsOfType("script")) {
+            header.removeChildElement(element);
+        }
+    }
+
     public void setTitle(String title){
-        this.title.clearChildElements();
-        this.title.addChildElements(title);
+        this.title.setChildElement(title);
     }
 
     public void setStyle(String style){
-        this.style.clearChildElements();
-        this.style.addChildElements(style);
+        this.style.setChildElement(style);
         this.header.addChildElements(this.style);
     }
 
     public void setScript(String script){
-        this.script.clearChildElements();
-        this.script.addChildElements(script);
+        this.script.setChildElement(script);
         this.header.addChildElements(this.script);
     }
 
@@ -137,12 +140,6 @@ public class HTMLDocument {
 
     public void clearScript(){
         this.header.removeChildElement(script);
-    }
-
-    public void clearScripts() {
-        for (HTMLElement element : header.getChildElementsOfType("script")) {
-            header.removeChildElement(element);
-        }
     }
 
     public HTMLElement getDoctypeIdentifier() {

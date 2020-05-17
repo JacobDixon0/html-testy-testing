@@ -1,6 +1,7 @@
 package us.jacobdixon.html;
 
 public interface HTMLAbstractElement {
-    String html(boolean useIndentation, int indentation);
+    String html();
     String html(boolean useIndentation);
+    String html(boolean useIndentation, int indentation);
 }

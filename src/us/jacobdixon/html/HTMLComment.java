@@ -1,7 +1,5 @@
 package us.jacobdixon.html;
 
-import static us.jacobdixon.utils.StringToolbox.repeat;
-
 public class HTMLComment implements HTMLAbstractElement {
 
     String content;
@@ -10,13 +8,17 @@ public class HTMLComment implements HTMLAbstractElement {
         this.content = content;
     }
 
+    public String html(){
+        return html(false);
+    }
+
     public String html(boolean useIndentation) {
         return html(useIndentation, 0);
     }
 
     public String html(boolean useIndentation, int indentation) {
         String s = "";
-        if (useIndentation) s += repeat("    ", indentation);
+        if (useIndentation) s += "    ".repeat(indentation);
         s += "<!-- " + content + " -->";
         if (useIndentation) s += "\n";
         return s;
