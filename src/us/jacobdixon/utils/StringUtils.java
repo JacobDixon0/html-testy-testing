@@ -65,7 +65,7 @@ public abstract class StringUtils {
                 .replaceAll("\\{", "%7B").replaceAll("}", "%7D")
                 .replaceAll("\\|", "%7C").replaceAll("`", "%80")
                 .replaceAll("\\[", "%5B").replaceAll("]", "%5D")
-                .replaceAll("'", "%39").replaceAll("\"", "%34");
+                .replaceAll("'", "%39");
     }
 
     public static String sanitizeRegex(String s) {

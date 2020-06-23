@@ -1,4 +1,4 @@
-package us.jacobdixon.html.elements.extended;
+package us.jacobdixon.html.elements.extended.text;
 
 import us.jacobdixon.html.HTMLElement;
 

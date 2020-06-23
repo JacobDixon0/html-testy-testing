@@ -1,16 +1,12 @@
 package us.jacobdixon.dev;
 
 import us.jacobdixon.html.HTMLAbstractElement;
-import us.jacobdixon.html.HTMLAttribute;
 import us.jacobdixon.html.HTMLDocument;
 import us.jacobdixon.html.HTMLElement;
 import us.jacobdixon.html.elements.Img;
-import us.jacobdixon.html.elements.ListItem;
-import us.jacobdixon.html.elements.UnorderedList;
-import us.jacobdixon.html.elements.extended.Anchor;
-import us.jacobdixon.html.elements.extended.Div;
-import us.jacobdixon.html.elements.extended.Paragraph;
-import us.jacobdixon.html.elements.extended.TextHeader;
+import us.jacobdixon.html.elements.extended.*;
+import us.jacobdixon.html.elements.extended.text.Paragraph;
+import us.jacobdixon.html.elements.extended.text.TextHeader;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -50,17 +46,29 @@ public class Testing {
         TextHeader h2 = new TextHeader(2, "Another Header Wow");
         UnorderedList ul1 = new UnorderedList();
 
-        for(int i = 0; i < 10; i++){
-            ListItem li = new ListItem();
-            li.setChildElement("list item " + i);
-            ul1.addChildElement(li);
+        for (int i = 0; i < 10; i++) {
+            ul1.addChildElement(new ListItem("list item " + i));
         }
+
+        ArrayList<ListItem> items = new ArrayList<>();
+
+        ListItem item1 = new ListItem();
+        item1.setChildElement("item 1");
+        ListItem item2 = new ListItem();
+        item2.setChildElement("item 2");
+
+        items.add(item1);
+        items.add(item2);
+
+        UnorderedList ul2 = new UnorderedList(items);
+
+        System.out.println("wowww " + ul2.getItem(1));
 
         Img image = new Img();
         image.setAttribute("src", "https://www.jacobdixon.us/res/img/header-bg-1.jpg");
         image.setAttribute("width", "200");
 
-        section.addChildElements(h1, p1, p2, h2, ul1, image);
+        section.addChildElements(h1, p1, p2, h2, ul1, ul2, image);
 
         Div section1 = new Div();
 
@@ -69,8 +77,18 @@ public class Testing {
 
         section1.addChildElement(new Anchor("https://google.com", Anchor.Target.Blank).setText("this is a link"));
 
+        doc.getHeader().addComment("this is a comment wow");
+
         doc.getBody().addChildElement(section);
         doc.getBody().addChildElement(section1);
+
+        for (HTMLAbstractElement element : section.getChildElements(true)) {
+            if (element instanceof HTMLElement) {
+                System.out.println(((HTMLElement) element).getTag());
+            } else {
+                System.out.println("\"" + element.html() + "\"");
+            }
+        }
 
         try {
             printToFile("C:\\Users\\Quack\\Desktop\\test_page.html", doc.html());

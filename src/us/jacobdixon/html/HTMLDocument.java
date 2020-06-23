@@ -1,11 +1,6 @@
 package us.jacobdixon.html;
 
-import us.jacobdixon.html.elements.Body;
-import us.jacobdixon.html.elements.Head;
-
-import java.util.ArrayList;
-
-public class HTMLDocument {
+public class HTMLDocument implements Cloneable {
 
     private HTMLElement doctypeIdentifier = new HTMLElement("!DOCTYPE");
 
@@ -33,6 +28,10 @@ public class HTMLDocument {
                 .addChildElements(document.body);
 
         return document;
+    }
+
+    public HTMLElement createElement(String tag){
+        return new HTMLElement(tag);
     }
 
     public void addStylesheet(String url) {
@@ -162,7 +161,7 @@ public class HTMLDocument {
         return header;
     }
 
-    public void setHeader(Head header) {
+    public void setHeader(HTMLElement header) {
         this.header = header;
     }
 
@@ -178,7 +177,7 @@ public class HTMLDocument {
         return body;
     }
 
-    public void setBody(Body body) {
+    public void setBody(HTMLElement body) {
         this.body = body;
     }
 
@@ -198,11 +197,32 @@ public class HTMLDocument {
         this.script = script;
     }
 
+    public HTMLElement getIcon() {
+        return icon;
+    }
+
+    public void setIcon(HTMLElement icon) {
+        this.icon = icon;
+    }
+
     public String html() {
         return doctypeIdentifier.html(true) + html.html(true);
     }
 
     public String html(boolean useIndentation) {
         return doctypeIdentifier.html(useIndentation) + html.html(useIndentation);
+    }
+
+    public HTMLDocument copy() {
+        HTMLDocument document = new HTMLDocument();
+        document.setDoctypeIdentifier(doctypeIdentifier);
+        document.setHtml(html);
+        document.setHeader(header);
+        document.setBody(body);
+        document.setTitle(title);
+        document.setStyle(style);
+        document.setScript(script);
+        document.setIcon(icon);
+        return document;
     }
 }

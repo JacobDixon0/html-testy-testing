@@ -1,4 +1,4 @@
-package us.jacobdixon.html.elements.extended;
+package us.jacobdixon.html.elements.extended.text;
 
 import us.jacobdixon.html.HTMLElement;
 
@@ -12,7 +12,7 @@ public class Bold extends HTMLElement {
         setText(textContent);
     }
 
-    public Bold setText(String text){
+    public Bold setText(String text) {
         setChildElement(text);
         return this;
     }

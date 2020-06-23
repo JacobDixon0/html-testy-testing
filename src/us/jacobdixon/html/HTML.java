@@ -4,14 +4,21 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 public abstract class HTML {
+
     public static String sanitizeText(String string) {
-        return string
+        return sanitizeText(string, false);
+    }
+
+    public static String sanitizeText(String string, boolean nbsp) {
+        String text = string
+                .replaceAll("&", "&amp;")
                 .replaceAll("\n", "<br>")
                 .replaceAll("<", "&lt;")
                 .replaceAll(">", "&gt;")
                 .replaceAll("\"", "&quot;")
-                .replaceAll("'", "&apos;")
-                .replaceAll("&", "&amp;");
+                .replaceAll("'", "&apos;");
+        if (nbsp) text = text.replaceAll(" ", "&nbsp;");
+        return text;
     }
 
     public static String sanitizeValue(String value) {

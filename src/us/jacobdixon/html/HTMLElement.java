@@ -347,10 +347,10 @@ public class HTMLElement implements HTMLAbstractElement {
     }
 
     public ArrayList<HTMLAbstractElement> getChildElements(boolean cascading) {
-        ArrayList<HTMLAbstractElement> elements = getChildElements();
-
-        if (cascading) {
-            for (HTMLAbstractElement element : elements) {
+        ArrayList<HTMLAbstractElement> elements = new ArrayList<>();
+        for (HTMLAbstractElement element : getChildElements()) {
+            elements.add(element);
+            if (cascading) {
                 if (element instanceof HTMLElement) {
                     elements.addAll(((HTMLElement) element).getChildElements(true));
                 }
